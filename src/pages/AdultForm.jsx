@@ -139,7 +139,7 @@ export default function AdultForm() {
     );
 
     // Notion
-      await fetch("https://notion-api.novakovi.dev/add", {
+      await fetch("https://tattoo-consent-api.vercel.app/add", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
