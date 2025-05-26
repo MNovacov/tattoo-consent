@@ -6,9 +6,9 @@ import jsPDF from "jspdf";
 import { uploadFile } from '@uploadcare/upload-client';
 
 export default function AdultForm() {
-  const { state } = useLocation(); // recibe datos del tatuador
-  const sigCanvas = useRef(); // referencia para la firma
-  const sigCanvasArtist = useRef(); // firma del tatuador
+  const { state } = useLocation(); 
+  const sigCanvas = useRef(); 
+  const sigCanvasArtist = useRef(); 
   
 
   const [form, setForm] = useState({
@@ -138,14 +138,41 @@ export default function AdultForm() {
       "F1xPVLlu6VYh4U0Jg"
     );
 
-    alert("Consentimiento enviado correctamente");
-  } catch (error) {
-    console.error("Error al enviar:", error);
-    alert("Hubo un error al enviar el consentimiento");
-  } finally {
-    setIsSending(false);
-  }
-};
+    // Notion
+      await fetch("https://notion-api.novakovi.dev/add", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": "Bearer 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"
+        },
+        body: JSON.stringify({
+          Cliente: form.name,
+          "Email Cliente": form.email,
+          "Teléfono Cliente": form.phone,
+          "Teléfono Emergencia": form.emergency,
+          "Edad Cliente": form.age,
+          "Menor de Edad": false,
+          "Nombre Tutor": null,
+          "Email Tutor": null,
+          Tatuador: state?.artist,
+          "Zona a Tatuar": null,
+          Sesiones: null,
+          Fecha: today,
+          Valor: null,
+          Abono: null,
+          Alergias: form.allergy === "SI" ? form.allergyDetail : "Ninguna",
+          "Firma Cliente": pdfURL
+        })
+      });
+
+      alert("Consentimiento enviado correctamente");
+    } catch (error) {
+      console.error("Error al enviar:", error);
+      alert("Hubo un error al enviar el consentimiento");
+    } finally {
+      setIsSending(false);
+    }
+  };
 
 
   return (
