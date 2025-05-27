@@ -139,7 +139,7 @@ export default function AdultForm() {
     );
 
     // Notionn
-      await fetch("https://tattoo-consent-api.vercel.app/api/add", {
+      await fetch("/api/add", {
   method: "POST",
   headers: {
     "Content-Type": "application/json",
