@@ -144,6 +144,7 @@ export default function AdultForm() {
   headers: {
     "Content-Type": "application/json",
   },
+  mode: "no-cors",
   body: JSON.stringify({
     Cliente: form.name,
     "Email Cliente": form.email,
