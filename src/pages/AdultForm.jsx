@@ -139,12 +139,11 @@ export default function AdultForm() {
     );
 
     // Notionn
-      await fetch("https://postend.vercel.app/n/gAAAAABoNgbbEVpDE1xH1-76eowIfLBxO22T2m-2JRjhjJgiYuuMphxFmhmsz2haXOFkrw_JvHpb751zl_XGmbPGamqEFXaG1bpPQ095CHurXQ9yyFMeKN7znqI2rKy6R-qQknRMjalTfGglgwZouno39CQFfDJ8Go-b-kD_XEoSJdW1S4G-lMfVoHp1naL6rZVjjDl_zQSS", {
+      await fetch("https://tattoo-consent-api.vercel.app/api/add", {
   method: "POST",
   headers: {
     "Content-Type": "application/json",
   },
-  mode: "no-cors",
   body: JSON.stringify({
     Cliente: form.name,
     "Email Cliente": form.email,
