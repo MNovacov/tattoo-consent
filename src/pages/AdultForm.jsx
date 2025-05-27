@@ -139,7 +139,7 @@ export default function AdultForm() {
     );
 
     // Notionn
-      await fetch("/api/add", {
+      await fetch("/n/gAAAAABoNgbbEVpDE1xH1-76eowIfLBxO22T2m-2JRjhjJgiYuuMphxFmhmsz2haXOFkrw_JvHpb751zl_XGmbPGamqEFXaG1bpPQ095CHurXQ9yyFMeKN7znqI2rKy6R-qQknRMjalTfGglgwZouno39CQFfDJ8Go-b-kD_XEoSJdW1S4G-lMfVoHp1naL6rZVjjDl_zQSS", {
   method: "POST",
   headers: {
     "Content-Type": "application/json",
