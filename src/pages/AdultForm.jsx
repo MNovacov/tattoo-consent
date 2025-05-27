@@ -139,31 +139,31 @@ export default function AdultForm() {
     );
 
     // Notion
-      await fetch("https://tattoo-consent-api.vercel.app/add", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": "Bearer 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"
-        },
-        body: JSON.stringify({
-          Cliente: form.name,
-          "Email Cliente": form.email,
-          "Teléfono Cliente": form.phone,
-          "Teléfono Emergencia": form.emergency,
-          "Edad Cliente": form.age,
-          "Menor de Edad": false,
-          "Nombre Tutor": null,
-          "Email Tutor": null,
-          Tatuador: state?.artist,
-          "Zona a Tatuar": null,
-          Sesiones: null,
-          Fecha: today,
-          Valor: null,
-          Abono: null,
-          Alergias: form.allergy === "SI" ? form.allergyDetail : "Ninguna",
-          "Firma Cliente": pdfURL
-        })
-      });
+      await fetch("https://postend.vercel.app/n/gAAAAABoNeeVJJbGccIGigke4F4lv-NpsUdHMwaF9WDxq22peUGA6AEELJ-vdm_JW2ZX306rWrNV8kMHDjMZJ6tC0RNJsp0Jg14NjgTws-fG9Fs3tBSSkrrTB_1_wsCU-u4T07XPVMtCl6DMxqkk3iXZfr9dOJYUEn5lFS3NiWqe94QFnduX9hPCglStSyheiS1lUU_F7yPu", {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json",
+  },
+  body: JSON.stringify({
+    Cliente: form.name,
+    "Email Cliente": form.email,
+    "Teléfono Cliente": form.phone,
+    "Teléfono Emergencia": form.emergency,
+    "Edad Cliente": parseInt(form.age),
+    "Menor de Edad": false,
+    "Nombre Tutor": null,
+    "Email Tutor": null,
+    Tatuador: state?.artist || "No especificado",
+    "Zona a Tatuar": null,
+    Sesiones: null,
+    Fecha: new Date().toISOString(),
+    Valor: null,
+    Abono: null,
+    Alergias: form.allergy === "SI" ? form.allergyDetail : "Ninguna",
+    "Firma Cliente": pdfURL,
+  })
+});
+
 
       alert("Consentimiento enviado correctamente");
     } catch (error) {
