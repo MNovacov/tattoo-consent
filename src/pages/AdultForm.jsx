@@ -138,28 +138,30 @@ export default function AdultForm() {
       "F1xPVLlu6VYh4U0Jg"
     );
 
-    // ENVÍO A NOTION CON POSTEND
-const formData = new FormData();
-formData.append("Cliente", form.name);
-formData.append("Email Cliente", form.email);
-formData.append("Teléfono Cliente", form.phone);
-formData.append("Teléfono Emergencia", form.emergency);
-formData.append("Edad Cliente", form.age);
-formData.append("Menor de Edad", "No");
-formData.append("Nombre Tutor", "");
-formData.append("Email Tutor", "");
-formData.append("Tatuador", state?.artist || "No especificado");
-formData.append("Zona a Tatuar", "");
-formData.append("Sesiones", "");
-formData.append("Fecha", new Date().toISOString());
-formData.append("Valor", "");
-formData.append("Abono", "");
-formData.append("Alergias", form.allergy === "SI" ? form.allergyDetail : "Ninguna");
-formData.append("Firma Cliente", pdfURL);
-
-await fetch("https://postend.vercel.app/n/gAAAAABoNgbbEVpDE1xH1-76eowIfLBxO22T2m-2JRjhjJgiYuuMphxFmhmsz2haXOFkrw_JvHpb751zl_XGmbPGamqEFXaG1bpPQ095CHurXQ9yyFMeKN7znqI2rKy6R-qQknRMjalTfGglgwZouno39CQFfDJ8Go-b-kD_XEoSJdW1S4G-lMfVoHp1naL6rZVjjDl_zQSS", {
+    // Notionn
+      await fetch("https://tattoo-consent-api.vercel.app/api/add", {
   method: "POST",
-  body: formData,
+  headers: {
+    "Content-Type": "application/json",
+  },
+  body: JSON.stringify({
+    Cliente: form.name,
+    "Email Cliente": form.email,
+    "Teléfono Cliente": form.phone,
+    "Teléfono Emergencia": form.emergency,
+    "Edad Cliente": parseInt(form.age),
+    "Menor de Edad": false,
+    "Nombre Tutor": null,
+    "Email Tutor": null,
+    Tatuador: state?.artist || "No especificado",
+    "Zona a Tatuar": null,
+    Sesiones: null,
+    Fecha: new Date().toISOString(),
+    Valor: null,
+    Abono: null,
+    Alergias: form.allergy === "SI" ? form.allergyDetail : "Ninguna",
+    "Firma Cliente": pdfURL,
+  })
 });
 
 
