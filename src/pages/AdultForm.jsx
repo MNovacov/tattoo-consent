@@ -108,7 +108,8 @@ export default function AdultForm() {
     const today = new Date().toLocaleDateString("es-CL");
     pdf.text(`Fecha: ${today}`, 10, y);
 
-    const pdfBlob = pdf.output("blob");
+    const pdfBlob = new Blob([pdf.output("arraybuffer")], { type: "application/pdf" });
+
 
     const result = await uploadFile(pdfBlob, {
       publicKey: '15bb8151e7a3d1fb0753',
