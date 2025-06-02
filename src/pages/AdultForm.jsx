@@ -275,7 +275,7 @@ export default function AdultForm() {
           <p className="text-sm text-gray-300 font-semibold">Firma del Cliente:</p>
           <div className="border border-gray-500 rounded bg-white">
     <SignatureCanvas
-      ref={sigCanvasArtist}
+      ref={sigCanvas}
       penColor="black"
       canvasProps={{ width: 600, height: 200, className: "rounded" }}
     />
