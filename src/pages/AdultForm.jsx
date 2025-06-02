@@ -9,7 +9,6 @@ export default function AdultForm() {
   const { state } = useLocation(); 
   const sigCanvas = useRef(); 
   const sigCanvasArtist = useRef(); 
-  
 
   const [form, setForm] = useState({
     name: "",
@@ -53,118 +52,120 @@ export default function AdultForm() {
   };
 
   const handleSubmit = async (e) => {
-  e.preventDefault();
-  setIsSending(true);
+    e.preventDefault();
+    setIsSending(true);
 
-  try {
-    const pdf = new jsPDF();
-    pdf.setFontSize(16);
-    pdf.setFont("helvetica", "bold");
-    pdf.text("Consentimiento Informado - Kairos Ink", 10, 15);
+    try {
+      const pdf = new jsPDF();
+      pdf.setFontSize(16);
+      pdf.setFont("helvetica", "bold");
+      pdf.text("Consentimiento Informado - Kairos Ink", 10, 15);
 
-    pdf.setFontSize(12);
-    pdf.setFont("helvetica", "normal");
-    let y = 30;
-    pdf.text(`Nombre: ${form.name}`, 10, y);
-    pdf.text(`Edad: ${form.age}`, 10, y += 10);
-    pdf.text(`Email: ${form.email}`, 10, y += 10);
-    pdf.text(`Teléfono: ${form.phone}`, 10, y += 10);
-    pdf.text(`Emergencia: ${form.emergency}`, 10, y += 10);
-    pdf.text(`Tatuador: ${state?.artist}`, 10, y += 10);
+      pdf.setFontSize(12);
+      pdf.setFont("helvetica", "normal");
+      let y = 30;
+      pdf.text(`Nombre: ${form.name}`, 10, y);
+      pdf.text(`Edad: ${form.age}`, 10, y += 10);
+      pdf.text(`Email: ${form.email}`, 10, y += 10);
+      pdf.text(`Teléfono: ${form.phone}`, 10, y += 10);
+      pdf.text(`Emergencia: ${form.emergency}`, 10, y += 10);
+      pdf.text(`Tatuador: ${state?.artist}`, 10, y += 10);
+      pdf.text(`Zona: ${state?.zone}`, 10, y += 10);
+      pdf.text(`Sesiones: ${state?.sessions}`, 10, y += 10);
+      pdf.text(`Fecha tatuaje: ${state?.date}`, 10, y += 10);
+      pdf.text(`Valor: $${state?.value}`, 10, y += 10);
+      pdf.text(`Abono: $${state?.deposit}`, 10, y += 10);
 
-    y += 10;
-    pdf.setFont("helvetica", "bold");
-    pdf.text("Texto de consentimiento:", 10, y);
-    pdf.setFont("helvetica", "normal");
-    y += 10;
+      y += 10;
+      pdf.setFont("helvetica", "bold");
+      pdf.text("Texto de consentimiento:", 10, y);
+      pdf.setFont("helvetica", "normal");
+      y += 10;
 
-    const consentimiento = [
-      "Comprendo que un tatuaje es una herida en la piel que puede evolucionar como cualquier otra herida,",
-      "pudiendo presentar infecciones, irritaciones, inflamaciones u otras complicaciones. Estas pueden deberse",
-      "a diversos factores como una curación inadecuada, sensibilidad específica de la piel, alergias, el estado",
-      "del sistema inmunológico de cada persona, entre otros.",
-      "",
-      "Entiendo y acepto que durante la realización del tatuaje puedo desarrollar alergia a alguno de los materiales",
-      "utilizados. Cualquier problema que surja y que no esté comprobado como consecuencia de una mala praxis",
-      "será de mi entera responsabilidad. Me comprometo a seguir las indicaciones entregadas para el cuidado del tatuaje.",
-    ];
+      const consentimiento = [
+        "Comprendo que un tatuaje es una herida en la piel que puede evolucionar como cualquier otra herida,",
+        "pudiendo presentar infecciones, irritaciones, inflamaciones u otras complicaciones. Estas pueden deberse",
+        "a diversos factores como una curación inadecuada, sensibilidad específica de la piel, alergias, el estado",
+        "del sistema inmunológico de cada persona, entre otros.",
+        "",
+        "Entiendo y acepto que durante la realización del tatuaje puedo desarrollar alergia a alguno de los materiales",
+        "utilizados. Cualquier problema que surja y que no esté comprobado como consecuencia de una mala praxis",
+        "será de mi entera responsabilidad. Me comprometo a seguir las indicaciones entregadas para el cuidado del tatuaje.",
+      ];
 
-    consentimiento.forEach(line => {
-      pdf.text(line, 10, y);
-      y += 7;
-    });
+      consentimiento.forEach(line => {
+        pdf.text(line, 10, y);
+        y += 7;
+      });
 
-    y += 10;
-    pdf.text("Firma del cliente:", 10, y);
-    const signatureClient = sigCanvas.current.toDataURL("image/png");
-    pdf.addImage(signatureClient, "PNG", 10, y + 5, 120, 40);
-    y += 50;
+      y += 10;
+      pdf.text("Firma del cliente:", 10, y);
+      const signatureClient = sigCanvas.current.toDataURL("image/png");
+      pdf.addImage(signatureClient, "PNG", 10, y + 5, 120, 40);
+      y += 50;
 
-    pdf.text("Firma del tatuador:", 10, y);
-    const signatureArtist = sigCanvasArtist.current.toDataURL("image/png");
-    pdf.addImage(signatureArtist, "PNG", 10, y + 5, 120, 40);
-    y += 50;
+      pdf.text("Firma del tatuador:", 10, y);
+      const signatureArtist = sigCanvasArtist.current.toDataURL("image/png");
+      pdf.addImage(signatureArtist, "PNG", 10, y + 5, 120, 40);
+      y += 50;
 
-    const today = new Date().toLocaleDateString("es-CL");
-    pdf.text(`Fecha: ${today}`, 10, y);
+      const today = new Date().toLocaleDateString("es-CL");
+      pdf.text(`Fecha: ${today}`, 10, y);
 
-    const pdfBlob = new Blob([pdf.output("arraybuffer")], { type: "application/pdf" });
+      const pdfBlob = new Blob([pdf.output("arraybuffer")], { type: "application/pdf" });
 
+      const result = await uploadFile(pdfBlob, {
+        publicKey: '15bb8151e7a3d1fb0753',
+        store: 'auto',
+        metadata: {
+          name: form.name,
+          artist: state?.artist || "No especificado",
+        }
+      });
 
-    const result = await uploadFile(pdfBlob, {
-      publicKey: '15bb8151e7a3d1fb0753',
-      store: 'auto',
-      metadata: {
+      const pdfURL = result.cdnUrl;
+
+      const templateParams = {
         name: form.name,
+        age: form.age,
+        email: form.email,
+        phone: form.phone,
+        emergency: form.emergency,
         artist: state?.artist || "No especificado",
-      }
-    });
+        pdf_link: pdfURL,
+      };
 
-    const pdfURL = result.cdnUrl;
+      await emailjs.send(
+        "service_1dg9h7v",
+        "template_9aabnl6",
+        templateParams,
+        "F1xPVLlu6VYh4U0Jg"
+      );
 
-    const templateParams = {
-      name: form.name,
-      age: form.age,
-      email: form.email,
-      phone: form.phone,
-      emergency: form.emergency,
-      artist: state?.artist || "No especificado",
-      pdf_link: pdfURL,
-    };
-
-    await emailjs.send(
-      "service_1dg9h7v",
-      "template_9aabnl6",
-      templateParams,
-      "F1xPVLlu6VYh4U0Jg"
-    );
-
-    // Notionn
       await fetch("https://tattoo-consent-api.vercel.app/api/add", {
-  method: "POST",
-  headers: {
-    "Content-Type": "application/json",
-  },
-  body: JSON.stringify({
-    Cliente: form.name,
-    "Email Cliente": form.email,
-    "Teléfono Cliente": form.phone,
-    "Teléfono Emergencia": form.emergency,
-    "Edad Cliente": parseInt(form.age),
-    "Menor de Edad": false,
-    "Nombre Tutor": null,
-    "Email Tutor": null,
-    Tatuador: (state?.artist || "No especificado").split(",").map(a => a.trim()),
-    "Zona a Tatuar": null,
-    Sesiones: null,
-    Fecha: new Date().toISOString(),
-    Valor: null,
-    Abono: null,
-    Alergias: form.allergy === "SI" ? form.allergyDetail : "Ninguna",
-    "Firma Cliente": pdfURL,
-  })
-});
-
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          Cliente: form.name,
+          "Email Cliente": form.email,
+          "Teléfono Cliente": form.phone,
+          "Teléfono Emergencia": form.emergency,
+          "Edad Cliente": parseInt(form.age),
+          "Menor de Edad": false,
+          "Nombre Tutor": null,
+          "Email Tutor": null,
+          Tatuador: (state?.artist || "No especificado").split(",").map(a => a.trim()),
+          "Zona a Tatuar": state?.zone || null,
+          Sesiones: state?.sessions || null,
+          Fecha: state?.date || new Date().toISOString(),
+          Valor: state?.value || null,
+          Abono: state?.deposit || null,
+          Alergias: form.allergy === "SI" ? form.allergyDetail : "Ninguna",
+          "Firma Cliente": pdfURL,
+        })
+      });
 
       alert("Consentimiento enviado correctamente");
     } catch (error) {
