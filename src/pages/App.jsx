@@ -66,7 +66,7 @@ export default function App() {
   };
 
   const handleNavigation = (path) => {
-  navigate(path, { state: { artist: tattooData.artist } });
+  navigate(path, { state: tattooData });
 };
 
   const arrowSvg = `url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23a0a0a0'%3e%3cpath d='M7 10l5 5 5-5z'/%3e%3c/svg%3e")`;
