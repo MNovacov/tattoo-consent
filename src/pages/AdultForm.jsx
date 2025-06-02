@@ -274,12 +274,12 @@ export default function AdultForm() {
         <div className="mt-6 space-y-2">
           <p className="text-sm text-gray-300 font-semibold">Firma del Cliente:</p>
           <div className="border border-gray-500 rounded bg-white">
-            <SignatureCanvas
-              ref={sigCanvas}
-              penColor="black"
-              canvasProps={{ width: 600, height: 200, className: "rounded" }}
-            />
-          </div>
+    <SignatureCanvas
+      ref={sigCanvasArtist}
+      penColor="black"
+      canvasProps={{ width: 600, height: 200, className: "rounded" }}
+    />
+  </div>
           <button type="button" onClick={() => sigCanvas.current.clear()} className="bg-gray-700 hover:bg-gray-600 px-4 py-2 rounded text-sm">
             Limpiar firma
           </button>
