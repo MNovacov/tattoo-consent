@@ -4,6 +4,7 @@ import SignatureCanvas from "react-signature-canvas";
 import emailjs from "@emailjs/browser";
 import jsPDF from "jspdf";
 import { uploadFile } from "@uploadcare/upload-client";
+import { Client } from "@notionhq/client";
 
 export default function MinorForm() {
   const { state } = useLocation();
@@ -27,88 +28,126 @@ export default function MinorForm() {
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    setIsSending(true);
+  e.preventDefault();
+  setIsSending(true);
 
-    try {
-      const pdf = new jsPDF();
-      pdf.setFontSize(16);
-      pdf.setFont("helvetica", "bold");
-      pdf.text("Consentimiento Tatuaje - Menor de Edad", 10, 15);
+  try {
+    const pdf = new jsPDF();
+    pdf.setFontSize(16);
+    pdf.setFont("helvetica", "bold");
+    pdf.text("Consentimiento Tatuaje - Menor de Edad", 10, 15);
 
-      pdf.setFontSize(12);
-      pdf.setFont("helvetica", "normal");
-      let y = 30;
-      pdf.text(`Tutor: ${form.tutorName}`, 10, y);
-      pdf.text(`Correo Tutor: ${form.tutorEmail}`, 10, (y += 10));
-      pdf.text(`Menor: ${form.minorName}`, 10, (y += 10));
-      pdf.text(`Nacimiento: ${form.minorBirth}`, 10, (y += 10));
-      pdf.text(`Correo Menor: ${form.minorEmail || "(no entregado)"}`, 10, (y += 10));
-      pdf.text(`Tatuador: ${state?.artist}`, 10, (y += 10));
+    pdf.setFontSize(12);
+    pdf.setFont("helvetica", "normal");
+    let y = 30;
+    pdf.text(`Tutor: ${form.tutorName}`, 10, y);
+    pdf.text(`Correo Tutor: ${form.tutorEmail}`, 10, (y += 10));
+    pdf.text(`Menor: ${form.minorName}`, 10, (y += 10));
+    pdf.text(`Nacimiento: ${form.minorBirth}`, 10, (y += 10));
+    pdf.text(`Correo Menor: ${form.minorEmail || "(no entregado)"}`, 10, (y += 10));
+    pdf.text(`Tatuador: ${state?.artist}`, 10, (y += 10));
 
-      y += 10;
-      pdf.setFont("helvetica", "bold");
-      pdf.text("Texto de consentimiento:", 10, y);
-      pdf.setFont("helvetica", "normal");
-      y += 10;
+    y += 10;
+    pdf.setFont("helvetica", "bold");
+    pdf.text("Texto de consentimiento:", 10, y);
+    pdf.setFont("helvetica", "normal");
+    y += 10;
 
-      const consentimiento = [
-        "Declaro que he sido informado/a y entiendo los riesgos y procedimientos asociados",
-        "con el tatuaje que mi pupilo está a punto de recibir. Reconozco que el proceso",
-        "del tatuaje implica la inyección de tinta en la piel mediante aguja, lo cual puede",
-        "causar dolor, molestias e incluso riesgos de salud si no se realiza y cuida correctamente."
-      ];
+    const consentimiento = [
+      "Declaro que he sido informado/a y entiendo los riesgos y procedimientos asociados",
+      "con el tatuaje que mi pupilo está a punto de recibir. Reconozco que el proceso",
+      "del tatuaje implica la inyección de tinta en la piel mediante aguja, lo cual puede",
+      "causar dolor, molestias e incluso riesgos de salud si no se realiza y cuida correctamente."
+    ];
 
-      consentimiento.forEach((line) => {
-        pdf.text(line, 10, y);
-        y += 7;
-      });
+    consentimiento.forEach((line) => {
+      pdf.text(line, 10, y);
+      y += 7;
+    });
 
-      y += 10;
-      pdf.text("Firma del Tutor:", 10, y);
-      const tutorSign = sigTutor.current.toDataURL("image/png");
-      pdf.addImage(tutorSign, "PNG", 10, y + 5, 120, 40);
-      y += 50;
+    y += 10;
+    pdf.text("Firma del Tutor:", 10, y);
+    const tutorSign = sigTutor.current.toDataURL("image/png");
+    pdf.addImage(tutorSign, "PNG", 10, y + 5, 120, 40);
+    y += 50;
 
-      const today = new Date().toLocaleDateString("es-CL");
-      pdf.text(`Fecha: ${today}`, 10, y);
+    const today = new Date().toLocaleDateString("es-CL");
+    pdf.text(`Fecha: ${today}`, 10, y);
 
-      y += 10;
-      pdf.text("Firma del Tatuador:", 10, y);
-      const artistSign = sigArtist.current.toDataURL("image/png");
-      pdf.addImage(artistSign, "PNG", 10, y + 5, 120, 40);
+    y += 10;
+    pdf.text("Firma del Tatuador:", 10, y);
+    const artistSign = sigArtist.current.toDataURL("image/png");
+    pdf.addImage(artistSign, "PNG", 10, y + 5, 120, 40);
 
-      const pdfBlob = pdf.output("blob");
+    const pdfBlob = pdf.output("blob");
 
-      const result = await uploadFile(pdfBlob, {
-        publicKey: "15bb8151e7a3d1fb0753",
-        store: "auto",
-        metadata: {
-          name: form.minorName,
-          artist: state?.artist || "No especificado",
-        },
-      });
-
-      const pdfURL = result.cdnUrl;
-
-      const templateParams = {
+    const result = await uploadFile(pdfBlob, {
+      publicKey: "15bb8151e7a3d1fb0753",
+      store: "auto",
+      metadata: {
         name: form.minorName,
-        tutor: form.tutorName,
-        email: form.tutorEmail,
         artist: state?.artist || "No especificado",
-        pdf_link: pdfURL,
-      };
+      },
+    });
 
-      await emailjs.send("service_1dg9h7v", "template_9aabnl6", templateParams, "F1xPVLlu6VYh4U0Jg");
+    const pdfURL = result.cdnUrl;
 
-      alert("Consentimiento enviado correctamente");
-    } catch (error) {
-      console.error("Error al enviar:", error);
-      alert("Hubo un error al enviar el consentimiento");
-    } finally {
-      setIsSending(false);
-    }
-  };
+    const templateParams = {
+      name: form.minorName,
+      tutor: form.tutorName,
+      email: form.tutorEmail,
+      artist: state?.artist || "No especificado",
+      pdf_link: pdfURL,
+    };
+
+    await emailjs.send("service_1dg9h7v", "template_9aabnl6", templateParams, "F1xPVLlu6VYh4U0Jg");
+
+    //  Notion
+    const notion = new Client({ auth: import.meta.env.VITE_NOTION_TOKEN });
+
+    await notion.pages.create({
+      parent: { database_id: import.meta.env.VITE_NOTION_DATABASE_ID },
+      properties: {
+        "Cliente": { title: [{ text: { content: form.minorName } }] },
+        "Email Cliente": { email: form.minorEmail || "" },
+        "Teléfono Cliente": { rich_text: [{ text: { content: "" } }] },
+        "Teléfono Emergencia": { rich_text: [{ text: { content: "" } }] },
+        "Edad Cliente": { number: calcularEdad(form.minorBirth) },
+        "Menor de Edad": { checkbox: true },
+        "Nombre Tutor": { rich_text: [{ text: { content: form.tutorName } }] },
+        "Email Tutor": { email: form.tutorEmail },
+        "Tatuador": { rich_text: [{ text: { content: state?.artist || "" } }] },
+        "Zona a Tatuar": { rich_text: [{ text: { content: "" } }] },
+        "Sesiones": { number: 1 },
+        "Fecha": { date: { start: new Date().toISOString() } },
+        "Valor": { number: 0 },
+        "Abono": { number: 0 },
+        "Alergias": { rich_text: [{ text: { content: "" } }] },
+        "Firma Cliente": { url: pdfURL }
+      }
+    });
+
+    alert("Consentimiento enviado correctamente");
+  } catch (error) {
+    console.error("Error al enviar:", error);
+    alert("Hubo un error al enviar el consentimiento");
+  } finally {
+    setIsSending(false);
+  }
+};
+
+// helper para calcular edad
+function calcularEdad(fecha) {
+  const nacimiento = new Date(fecha);
+  const hoy = new Date();
+  let edad = hoy.getFullYear() - nacimiento.getFullYear();
+  const m = hoy.getMonth() - nacimiento.getMonth();
+  if (m < 0 || (m === 0 && hoy.getDate() < nacimiento.getDate())) {
+    edad--;
+  }
+  return edad;
+}
+
 
   return (
     <div className="min-h-screen bg-gray-900 text-white px-4 py-8">
