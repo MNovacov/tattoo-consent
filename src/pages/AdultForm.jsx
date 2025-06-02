@@ -156,7 +156,7 @@ export default function AdultForm() {
           "Menor de Edad": false,
           "Nombre Tutor": null,
           "Email Tutor": null,
-          Tatuador: (state?.artist || "No especificado").split(",").map(a => a.trim()),
+          Tatuador: (state?.artist || "No especificado").split(",").map(a => ({  name: a.trim()})),
           "Zona a Tatuar": state?.zone || null,
           Sesiones: state?.sessions || null,
           Fecha: state?.date || new Date().toISOString(),
