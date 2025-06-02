@@ -66,8 +66,8 @@ export default function App() {
   };
 
   const handleNavigation = (path) => {
-    navigate(path);
-  };
+  navigate(path, { state: { artist: tattooData.artist } });
+};
 
   const arrowSvg = `url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23a0a0a0'%3e%3cpath d='M7 10l5 5 5-5z'/%3e%3c/svg%3e")`;
 
@@ -152,7 +152,7 @@ export default function App() {
               <button
                 onClick={addArtist}
                 disabled={!newArtist.trim()}
-                className="px-3 py-2 bg-green-600 hover:bg-green-500 rounded text-white disabled:opacity-50"
+                className="px-3 py-2 bg-green-600 hover:bg-purple-700 rounded text-white disabled:opacity-50"
               >
                 Añadir
               </button>
