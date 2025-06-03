@@ -102,30 +102,27 @@ export default function MinorForm() {
 
       await emailjs.send("service_1dg9h7v", "template_9aabnl6", templateParams, "F1xPVLlu6VYh4U0Jg");
 
-      await fetch("https://tattoo-consent-api.vercel.app/api/add", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        Cliente: form.minorName,
-        "Email Cliente": form.minorEmail || null,
-        "Teléfono Cliente": null, // No hay campo en el formulario
-        "Teléfono Emergencia": null, // No hay campo en el formulario
-        "Edad Cliente": calcularEdad(form.minorBirth),
-        "Menor de Edad": true,
-        "Nombre Tutor": form.tutorName,
-        "Email Tutor": form.tutorEmail,
-        Tatuador: state?.artist || "No especificado",
-        "Zona a Tatuar": state?.zone || null,
-        Sesiones: state?.sessions || null,
-        Fecha: state?.date || new Date().toISOString(),
-        Valor: state?.value ? parseInt(state.value) : null,
-        Abono: state?.deposit ? parseInt(state.deposit) : null,
-        Alergias: "Ninguna", // No hay campo en el formulario
-        "Firma Cliente": pdfURL,
-      })
-    });
+      await fetch("https://tattoo-consent-api.vercel.app/api/addd", {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json",
+  },
+  body: JSON.stringify({
+    "Nombre Menor": form.minorName,
+    "Fecha Nacimiento": form.minorBirth,
+    "Email Menor": form.minorEmail,
+    "Nombre Tutor": form.tutorName,
+    "Email Tutor": form.tutorEmail,
+    Tatuador: state?.artist,
+    "Zona a Tatuar": state?.zone,
+    Sesiones: state?.sessions,
+    Fecha: state?.date,
+    Valor: state?.value,
+    Abono: state?.deposit,
+    "Firma Tutor": pdfURL, 
+    "Firma Tatuador": artistSignatureURL 
+  })
+});
 
     alert("Consentimiento enviado correctamente");
   } catch (error) {
