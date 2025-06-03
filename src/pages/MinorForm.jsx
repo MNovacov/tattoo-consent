@@ -103,26 +103,26 @@ export default function MinorForm() {
       await emailjs.send("service_1dg9h7v", "template_9aabnl6", templateParams, "F1xPVLlu6VYh4U0Jg");
 
       await fetch("https://tattoo-consent-api.vercel.app/api/addd", {
-  method: "POST",
-  headers: {
-    "Content-Type": "application/json",
-  },
-  body: JSON.stringify({
-    "Nombre Menor": form.minorName,
-    "Fecha Nacimiento": form.minorBirth,
-    "Email Menor": form.minorEmail,
-    "Nombre Tutor": form.tutorName,
-    "Email Tutor": form.tutorEmail,
-    Tatuador: state?.artist,
-    "Zona a Tatuar": state?.zone,
-    Sesiones: state?.sessions,
-    Fecha: state?.date,
-    Valor: state?.value,
-    Abono: state?.deposit,
-    "Firma Tutor": pdfURL, 
-    "Firma Tatuador": artistSignatureURL 
-  })
-});
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        "Nombre Menor": form.minorName,
+        "Fecha Nacimiento": form.minorBirth,
+        "Email Menor": form.minorEmail || null,
+        "Nombre Tutor": form.tutorName,
+        "Email Tutor": form.tutorEmail,
+        Tatuador: state?.artist || "No especificado",
+        "Zona a Tatuar": state?.zone || "No especificado",
+        Sesiones: state?.sessions || 1,
+        Fecha: state?.date || new Date().toISOString(),
+        Valor: state?.value ? parseInt(state.value) : 0,
+        Abono: state?.deposit ? parseInt(state.deposit) : 0,
+        "Firma Tutor": pdfURL, 
+        "Firma Tatuador": pdfURL 
+      })
+    });
 
     alert("Consentimiento enviado correctamente");
   } catch (error) {
@@ -133,7 +133,7 @@ export default function MinorForm() {
   }
 };
 
-// Función para calcular la edad
+
 function calcularEdad(fechaNacimiento) {
   if (!fechaNacimiento) return null;
   const nacimiento = new Date(fechaNacimiento);
@@ -176,7 +176,7 @@ function calcularEdad(fechaNacimiento) {
           </p>
         </details>
 
-        {/* Firmas */}
+        
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-6 text-center text-sm text-gray-400">
           <div className="space-y-2">
             <p className="text-white">Firma del Tutor</p>

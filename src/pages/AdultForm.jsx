@@ -270,7 +270,7 @@ export default function AdultForm() {
           </div>
         </details>
 
-        {/* Firma dibujable cliente */}
+        
         <div className="mt-6 space-y-2">
           <p className="text-sm text-gray-300 font-semibold">Firma del Cliente:</p>
           <div className="border border-gray-500 rounded bg-white">
@@ -284,7 +284,7 @@ export default function AdultForm() {
             Limpiar firma
           </button>
         </div>
-        {/* Firma del tatuador */}
+        
 <div className="mt-6 space-y-2">
   <p className="text-sm text-gray-300 font-semibold">Firma del Tatuador:</p>
   <div className="border border-gray-500 rounded bg-white">
