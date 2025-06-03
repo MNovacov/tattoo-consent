@@ -42,7 +42,7 @@ export default function MinorForm() {
       let y = 30;
       pdf.text(`Tutor: ${form.tutorName}`, 10, y);
       pdf.text(`Correo Tutor: ${form.tutorEmail}`, 10, (y += 10));
-      pdf.text(`Menor: ${form.minorName}`, 10, (y += 10));
+      pdf.text(`Edad: ${form.age}`, 10, y += 10);
       pdf.text(`Nacimiento: ${form.minorBirth}`, 10, (y += 10));
       pdf.text(`Correo Menor: ${form.minorEmail || "(no entregado)"}`, 10, (y += 10));
       pdf.text(`Tatuador: ${state?.artist}`, 10, (y += 10));
@@ -136,19 +136,6 @@ export default function MinorForm() {
   }
 };
 
-
-function calcularEdad(fechaNacimiento) {
-  if (!fechaNacimiento) return null;
-  const nacimiento = new Date(fechaNacimiento);
-  const hoy = new Date();
-  let edad = hoy.getFullYear() - nacimiento.getFullYear();
-  const mes = hoy.getMonth() - nacimiento.getMonth();
-  if (mes < 0 || (mes === 0 && hoy.getDate() < nacimiento.getDate())) {
-    edad--;
-  }
-  return edad;
-}
-
   return (
     <div className="min-h-screen bg-gray-900 text-white px-4 py-8">
       <h2 className="text-2xl font-bold text-center mb-6">Consentimiento Menor de Edad</h2>
@@ -163,7 +150,7 @@ function calcularEdad(fechaNacimiento) {
 
         <p className="mt-6 font-semibold text-white">Información del Menor</p>
         <input name="minorName" placeholder="Nombre y Apellido del Menor" onChange={handleChange} className="w-full p-2 rounded bg-white/10 border border-gray-700 placeholder-gray-400" />
-        <input name="minorBirth" type="date" placeholder="Fecha de nacimiento" onChange={handleChange} className="w-full p-2 rounded bg-white/10 border border-gray-700 text-white" />
+        <input name="age" type="number" placeholder="Edad" onChange={handleChange} className="w-full p-2 rounded bg-white/10 border border-gray-700 placeholder-gray-400" />
         <input name="minorEmail" type="email" placeholder="Correo del Menor (opcional)" onChange={handleChange} className="w-full p-2 rounded bg-white/10 border border-gray-700 placeholder-gray-400" />
 
         <div className="mt-4 flex items-center gap-2">
