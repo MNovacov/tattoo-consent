@@ -102,7 +102,7 @@ export default function MinorForm() {
 
       await emailjs.send("service_1dg9h7v", "template_9aabnl6", templateParams, "F1xPVLlu6VYh4U0Jg");
 
-      await fetch("https://tattoo-consent-api.vercel.app/api/addd", {
+      await fetch("https://tattoo-consent-api.vercel.app/api/add", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
