@@ -103,38 +103,51 @@ export default function MinorForm() {
       await emailjs.send("service_1dg9h7v", "template_9aabnl6", templateParams, "F1xPVLlu6VYh4U0Jg");
 
       await fetch("https://tattoo-consent-api.vercel.app/api/add", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          Cliente: form.minorname,
-          "Email Cliente": form.email,
-          "Teléfono Cliente": form.phone,
-          "Teléfono Emergencia": form.emergency,
-          "Edad Cliente": parseInt(form.age),
-          "Menor de Edad": true,
-          "Nombre Tutor": form.tutorName,
-          "Email Tutor": form.tutorEmail,
-          Tatuador: state?.artist || "No especificado",
-          "Zona a Tatuar": state?.zone || null,
-          Sesiones: state?.sessions || null,
-          Fecha: state?.date || new Date().toISOString(),
-          Valor: state?.value || null,
-          Abono: state?.deposit || null,
-          Alergias: form.allergy === "SI" ? form.allergyDetail : "Ninguna",
-          "Firma Cliente": pdfURL,
-        })
-      });
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        Cliente: form.minorName,
+        "Email Cliente": form.minorEmail || null,
+        "Teléfono Cliente": null, // No hay campo en el formulario
+        "Teléfono Emergencia": null, // No hay campo en el formulario
+        "Edad Cliente": calcularEdad(form.minorBirth),
+        "Menor de Edad": true,
+        "Nombre Tutor": form.tutorName,
+        "Email Tutor": form.tutorEmail,
+        Tatuador: state?.artist || "No especificado",
+        "Zona a Tatuar": state?.zone || null,
+        Sesiones: state?.sessions || null,
+        Fecha: state?.date || new Date().toISOString(),
+        Valor: state?.value ? parseInt(state.value) : null,
+        Abono: state?.deposit ? parseInt(state.deposit) : null,
+        Alergias: "Ninguna", // No hay campo en el formulario
+        "Firma Cliente": pdfURL,
+      })
+    });
 
-      alert("Consentimiento enviado correctamente");
-    } catch (error) {
-      console.error("Error al enviar:", error);
-      alert("Hubo un error al enviar el consentimiento");
-    } finally {
-      setIsSending(false);
-    }
-  };
+    alert("Consentimiento enviado correctamente");
+  } catch (error) {
+    console.error("Error al enviar:", error);
+    alert("Hubo un error al enviar el consentimiento");
+  } finally {
+    setIsSending(false);
+  }
+};
+
+// Función para calcular la edad
+function calcularEdad(fechaNacimiento) {
+  if (!fechaNacimiento) return null;
+  const nacimiento = new Date(fechaNacimiento);
+  const hoy = new Date();
+  let edad = hoy.getFullYear() - nacimiento.getFullYear();
+  const mes = hoy.getMonth() - nacimiento.getMonth();
+  if (mes < 0 || (mes === 0 && hoy.getDate() < nacimiento.getDate())) {
+    edad--;
+  }
+  return edad;
+}
 
   return (
     <div className="min-h-screen bg-gray-900 text-white px-4 py-8">
