@@ -108,25 +108,24 @@ export default function MinorForm() {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        Cliente: form.minorName,  
-        "Email Cliente": form.minorEmail, 
-        "Teléfono Cliente": null, 
-        "Teléfono Emergencia": null, 
-        "Edad Cliente": parseInt(form.age),
-        "Menor de Edad": true,
-        "Nombre Tutor": form.tutorName || "No especificado", 
-        "Email Tutor": form.tutorEmail || "No especificado", 
-        Tatuador: state?.artist || "No especificado",
-        "Zona a Tatuar": state?.zone || "No especificado",
-        Sesiones: state?.sessions || 1,
-        Fecha: state?.date || new Date().toISOString(),
-        Valor: state?.value ? parseInt(state.value) : 0,
-        Abono: state?.deposit ? parseInt(state.deposit) : 0,
-        Alergias: "Ninguna", 
-        "Firma Cliente": pdfURL
+        Cliente: form.name,
+          "Email Cliente": form.email,
+          "Teléfono Cliente": form.phone,
+          "Teléfono Emergencia": form.emergency,
+          "Edad Cliente": parseInt(form.age),
+          "Menor de Edad": true,
+          "Nombre Tutor": { rich_text: [{ text: { content: form.tutorName || "No especificado" } }] },
+          "Email Tutor": { email: form.tutorEmail || "No especificado" },
+          Tatuador: state?.artist || "No especificado",
+          "Zona a Tatuar": state?.zone || null,
+          Sesiones: state?.sessions || null,
+          Fecha: state?.date || new Date().toISOString(),
+          Valor: state?.value || null,
+          Abono: state?.deposit || null,
+          Alergias: form.allergy === "SI" ? form.allergyDetail : "Ninguna",
+          "Firma Cliente": pdfURL,
       })
     });
-
 
     alert("Consentimiento enviado correctamente");
   } catch (error) {
