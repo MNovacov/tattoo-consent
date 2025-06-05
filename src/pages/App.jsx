@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import 'animate.css';
 
 export default function App() {
   const navigate = useNavigate();
@@ -15,7 +16,7 @@ export default function App() {
   const [newArtist, setNewArtist] = useState("");
   const [showAddInput, setShowAddInput] = useState(false);
 
-  // Cargar tatuadores desde localStorage
+  
   const [tattooArtists, setTattooArtists] = useState(() => {
     const saved = localStorage.getItem("tattooArtists");
     return saved ? JSON.parse(saved) : [
@@ -29,7 +30,7 @@ export default function App() {
     ];
   });
 
-  // Guardar en localStorage cuando cambian
+  
   useEffect(() => {
     localStorage.setItem("tattooArtists", JSON.stringify(tattooArtists));
   }, [tattooArtists]);
@@ -71,7 +72,7 @@ export default function App() {
 
   const arrowSvg = `url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23a0a0a0'%3e%3cpath d='M7 10l5 5 5-5z'/%3e%3c/svg%3e")`;
 
-  // Ordenar tatuadores dejando "Invitado" al final
+  
   const sortedArtists = [...tattooArtists].sort((a, b) => {
     if (a === "Invitado") return 1;
     if (b === "Invitado") return -1;
@@ -80,7 +81,7 @@ export default function App() {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-purple-900 via-black to-gray-900 text-white flex flex-col items-center justify-center px-4 py-8">
-      <img src="/logo.png" alt="Kairos Ink Logo" className="w-40 md:w-48 lg:w-56 mb-6" />
+      <h1 class="animate__animated animate__fadeIn"><img src="/logo.png" alt="Kairos Ink Logo" className="w-40 md:w-48 lg:w-56 mb-6" /></h1>
       <h1 className="text-3xl font-bold mb-4 text-white">Tattoo Studio Kairos Ink</h1>
 
       <div className="w-full max-w-md space-y-4">
