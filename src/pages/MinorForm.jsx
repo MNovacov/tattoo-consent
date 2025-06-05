@@ -172,7 +172,7 @@ export default function MinorForm() {
         <input name="minorName" placeholder="Nombre y Apellido del Menor" onChange={handleChange} className="w-full p-2 rounded bg-white/10 border border-gray-700 placeholder-gray-400" />
         <input name="age" type="number" placeholder="Edad" onChange={handleChange} className="w-full p-2 rounded bg-white/10 border border-gray-700 placeholder-gray-400" />
         <input name="minorEmail" type="email" placeholder="Correo del Menor (opcional)" onChange={handleChange} className="w-full p-2 rounded bg-white/10 border border-gray-700 placeholder-gray-400" />
-        <input name="emergency" placeholder="Teléfono de emergencia (opcional)" onChange={handleChange} className="w-full p-2 rounded bg-white/10 border border-gray-700 placeholder-gray-400" />
+        <input name="emergency" placeholder="Teléfono de emergencia" onChange={handleChange} className="w-full p-2 rounded bg-white/10 border border-gray-700 placeholder-gray-400" />
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm">
           {["pressure", "heart", "epilepsy", "blood"].map((item) => (
