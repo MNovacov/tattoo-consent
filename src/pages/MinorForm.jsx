@@ -18,6 +18,16 @@ export default function MinorForm() {
     minorName: "",
     minorBirth: "",
     minorEmail: "",
+    emergency: "",
+    pressure: "NO",
+    heart: "NO",
+    epilepsy: "NO",
+    blood: "NO",
+    allergy: "NO",
+    allergyDetail: "",
+    skin: "NO",
+    skinDetail: "",
+    importantNote: "",
     consentConfirmed: false,
   });
 
@@ -44,10 +54,16 @@ export default function MinorForm() {
       pdf.text(`Tutor: ${form.tutorName}`, 10, y);
       pdf.text(`Correo Tutor: ${form.tutorEmail}`, 10, (y += 10));
       pdf.text(`Teléfono: ${form.phone}`, 10, y += 10);
+      pdf.text(`Emergencia: ${form.emergency}`, 10, y += 10);
       pdf.text(`Edad: ${form.age}`, 10, y += 10);
       pdf.text(`Nacimiento: ${form.minorBirth}`, 10, (y += 10));
       pdf.text(`Correo Menor: ${form.minorEmail || "(no entregado)"}`, 10, (y += 10));
       pdf.text(`Tatuador: ${state?.artist}`, 10, (y += 10));
+      pdf.text(`Zona: ${state?.zone}`, 10, y += 10);
+      pdf.text(`Sesiones: ${state?.sessions}`, 10, y += 10);
+      pdf.text(`Fecha tatuaje: ${state?.date}`, 10, y += 10);
+      pdf.text(`Valor: $${state?.value}`, 10, y += 10);
+      pdf.text(`Abono: $${state?.deposit}`, 10, y += 10);
 
       y += 10;
       pdf.setFont("helvetica", "bold");
@@ -99,6 +115,7 @@ export default function MinorForm() {
         tutor: form.tutorName,
         email: form.tutorEmail,
         phone: form.phone,
+        emergency: form.emergency,
         artist: state?.artist || "No especificado",
         pdf_link: pdfURL,
       };
@@ -153,7 +170,53 @@ export default function MinorForm() {
         <input name="minorName" placeholder="Nombre y Apellido del Menor" onChange={handleChange} className="w-full p-2 rounded bg-white/10 border border-gray-700 placeholder-gray-400" />
         <input name="age" type="number" placeholder="Edad" onChange={handleChange} className="w-full p-2 rounded bg-white/10 border border-gray-700 placeholder-gray-400" />
         <input name="minorEmail" type="email" placeholder="Correo del Menor (opcional)" onChange={handleChange} className="w-full p-2 rounded bg-white/10 border border-gray-700 placeholder-gray-400" />
+        <input name="emergency" placeholder="Teléfono de emergencia (opcional)" onChange={handleChange} className="w-full p-2 rounded bg-white/10 border border-gray-700 placeholder-gray-400" />
 
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm">
+          {["pressure", "heart", "epilepsy", "blood"].map((item) => (
+            <div key={item} className="flex justify-between bg-white/5 p-2 rounded">
+              <label>{{
+                pressure: "Presión alta",
+                heart: "Problema cardíaco",
+                epilepsy: "Epilepsia",
+                blood: "Enfermedad sanguínea"
+              }[item]}</label>
+              <select name={item} onChange={handleChange} className="bg-black border border-gray-600 rounded px-2">
+                <option value="NO">NO</option>
+                <option value="SI">SÍ</option>
+              </select>
+            </div>
+          ))}
+        </div>
+
+        <div className="space-y-4">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:gap-4">
+            <div className="flex items-center gap-2">
+              <label className="whitespace-nowrap">Alergias</label>
+              <select name="allergy" onChange={handleChange} className="bg-black border border-gray-600 rounded px-2 py-1">
+                <option value="NO">NO</option>
+                <option value="SI">SÍ</option>
+              </select>
+            </div>
+            <div className="flex items-center gap-2 mt-2 sm:mt-0">
+              <label className="whitespace-nowrap">Enfermedades de la piel</label>
+              <select name="skin" onChange={handleChange} className="bg-black border border-gray-600 rounded px-2 py-1">
+                <option value="NO">NO</option>
+                <option value="SI">SÍ</option>
+              </select>
+            </div>
+          </div>
+
+          {form.allergy === "SI" && (
+            <input name="allergyDetail" placeholder="¿Cuál?" onChange={handleChange} className="w-full p-2 rounded bg-white/10 border border-gray-700 placeholder-gray-400" />
+          )}
+
+          {form.skin === "SI" && (
+            <input name="skinDetail" placeholder="¿Cuál?" onChange={handleChange} className="w-full p-2 rounded bg-white/10 border border-gray-700 placeholder-gray-400" />
+          )}
+
+          <textarea name="importantNote" placeholder="Dato importante (opcional)" onChange={handleChange} className="w-full p-2 rounded bg-white/10 border border-gray-700 placeholder-gray-400"></textarea>
+        </div>
         <div className="mt-4 flex items-center gap-2">
           <input type="checkbox" name="consentConfirmed" onChange={handleChange} checked={form.consentConfirmed} />
           <label className="text-sm">Confirmo que he sido informado/a y autorizo el tatuaje del menor.</label>
