@@ -131,6 +131,7 @@ export default function MinorForm() {
     Cliente: form.minorName || "No especificado",
     "Email Cliente": form.minorEmail || "No especificado",
     "Teléfono Cliente": form.phone,
+    "Teléfono Emergencia": form.emergency,
     "Edad Cliente": parseInt(form.age),
     "Menor de Edad": true,
     "Nombre Tutor": form.tutorName,
@@ -141,6 +142,7 @@ export default function MinorForm() {
     Fecha: state?.date || new Date().toISOString(),
     Valor: state?.value || null,
     Abono: state?.deposit || null,
+    Alergias: form.allergy === "SI" ? form.allergyDetail : "Ninguna",
     "Firma Cliente": pdfURL,
   }),
 });
