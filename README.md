@@ -1,4 +1,4 @@
-# Kairos Consentimientos 🖋️
+# Kairos Consentimientos 
 
 Formulario web para la recolección de consentimientos firmados de clientes de estudio de tatuajes.
 
@@ -11,6 +11,7 @@ Formulario web para la recolección de consentimientos firmados de clientes de e
 - Generar un PDF automáticamente con todos los datos.
 - Subir el PDF a Firebase Storage.
 - Enviar un correo con el enlace al PDF usando EmailJS.
+- Guardar datos del formulario automáticamente en una base de datos en Notion.
 
 ---
 
