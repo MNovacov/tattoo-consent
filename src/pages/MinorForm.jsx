@@ -14,6 +14,7 @@ export default function MinorForm() {
   const [form, setForm] = useState({
     tutorName: "",
     tutorEmail: "",
+    phone: "",
     minorName: "",
     minorBirth: "",
     minorEmail: "",
@@ -42,6 +43,7 @@ export default function MinorForm() {
       let y = 30;
       pdf.text(`Tutor: ${form.tutorName}`, 10, y);
       pdf.text(`Correo Tutor: ${form.tutorEmail}`, 10, (y += 10));
+      pdf.text(`Teléfono: ${form.phone}`, 10, y += 10);
       pdf.text(`Edad: ${form.age}`, 10, y += 10);
       pdf.text(`Nacimiento: ${form.minorBirth}`, 10, (y += 10));
       pdf.text(`Correo Menor: ${form.minorEmail || "(no entregado)"}`, 10, (y += 10));
@@ -96,6 +98,7 @@ export default function MinorForm() {
         name: form.minorName,
         tutor: form.tutorName,
         email: form.tutorEmail,
+        phone: form.phone,
         artist: state?.artist || "No especificado",
         pdf_link: pdfURL,
       };
@@ -110,6 +113,7 @@ export default function MinorForm() {
   body: JSON.stringify({
     Cliente: form.minorName || "No especificado",
     "Email Cliente": form.minorEmail || "No especificado",
+    "Teléfono Cliente": form.phone,
     "Edad Cliente": parseInt(form.age),
     "Menor de Edad": true,
     "Nombre Tutor": form.tutorName,
@@ -144,7 +148,7 @@ export default function MinorForm() {
         <p className="mt-6 font-semibold text-white">Datos del Tutor</p>
         <input name="tutorName" placeholder="Nombre y Apellido del Tutor" onChange={handleChange} className="w-full p-2 rounded bg-white/10 border border-gray-700 placeholder-gray-400" />
         <input name="tutorEmail" type="email" placeholder="Correo del Tutor" onChange={handleChange} className="w-full p-2 rounded bg-white/10 border border-gray-700 placeholder-gray-400" />
-
+        <input name="phone" placeholder="Teléfono" onChange={handleChange} className="w-full p-2 rounded bg-white/10 border border-gray-700 placeholder-gray-400" />
         <p className="mt-6 font-semibold text-white">Información del Menor</p>
         <input name="minorName" placeholder="Nombre y Apellido del Menor" onChange={handleChange} className="w-full p-2 rounded bg-white/10 border border-gray-700 placeholder-gray-400" />
         <input name="age" type="number" placeholder="Edad" onChange={handleChange} className="w-full p-2 rounded bg-white/10 border border-gray-700 placeholder-gray-400" />
