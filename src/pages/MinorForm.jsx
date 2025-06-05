@@ -108,8 +108,8 @@ export default function MinorForm() {
     "Content-Type": "application/json",
   },
   body: JSON.stringify({
-    Cliente: form.minorName,
-    "Email Cliente": form.minorEmail || "",
+    Cliente: form.minorName || "No especificado",
+    "Email Cliente": form.minorEmail || "No especificado",
     "Edad Cliente": parseInt(form.age),
     "Menor de Edad": true,
     "Nombre Tutor": form.tutorName,
