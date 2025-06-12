@@ -82,7 +82,7 @@ export default function App() {
   return (
     <div className="min-h-screen bg-gradient-to-b from-purple-900 via-black to-gray-900 text-white flex flex-col items-center justify-center px-4 py-8">
       <h1 class="animate__animated animate__fadeIn"><img src="/logo.png" alt="Kairos Ink Logo" className="w-40 md:w-48 lg:w-56 mb-6" /></h1>
-      <h1 className="text-3xl font-bold mb-4 text-white">Tattoo Studio Kairos Ink</h1>
+      <h1 className="text-3xl font-bold mb-4 text-white">Formulario de Consentimiento</h1>
 
       <div className="w-full max-w-md space-y-4">
         <div className="flex items-start gap-2">
