@@ -183,7 +183,25 @@ export default function App() {
 
         <input name="zone" placeholder="Zona a tatuar" onChange={handleChange} className="w-full p-2 rounded bg-white/10 border border-gray-600 placeholder-gray-300" />
         <input name="sessions" placeholder="Sesiones" onChange={handleChange} className="w-full p-2 rounded bg-white/10 border border-gray-600 placeholder-gray-300" />
-        <input type="date" name="date" onChange={handleChange} className="w-full p-2 rounded bg-white/10 border border-gray-600 text-white placeholder-gray-300" />
+        <input
+  type="date"
+  name="date"
+  onChange={handleChange}
+  className="w-full text-white placeholder-gray-300 border border-gray-600 rounded bg-white/10"
+  style={{
+    WebkitAppearance: 'none',
+    MozAppearance: 'none',
+    appearance: 'none',
+    padding: '0.5rem',
+    height: '2.5rem',
+    backgroundColor: 'rgba(255,255,255,0.1)',
+    color: 'white',
+    border: '1px solid rgba(255,255,255,0.3)',
+    borderRadius: '0.375rem',
+    fontSize: '1rem',
+    lineHeight: '1.5',
+  }}
+/>
         <input name="value" placeholder="Valor ($)" onChange={handleChange} className="w-full p-2 rounded bg-white/10 border border-gray-600 placeholder-gray-300" />
         <input name="deposit" placeholder="Abono ($)" onChange={handleChange} className="w-full p-2 rounded bg-white/10 border border-gray-600 placeholder-gray-300" />
 
