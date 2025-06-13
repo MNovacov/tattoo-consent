@@ -184,11 +184,14 @@ export default function App() {
         <input name="zone" placeholder="Zona a tatuar" onChange={handleChange} className="w-full p-2 rounded bg-white/10 border border-gray-600 placeholder-gray-300" />
         <input name="sessions" placeholder="Sesiones" onChange={handleChange} className="w-full p-2 rounded bg-white/10 border border-gray-600 placeholder-gray-300" />
         <input
-        type="date"
-        name="date"
-        value={tattooData.date || new Date().toISOString().split("T")[0]}
-        onChange={handleChange}
-        className="w-full p-2 rounded bg-white/10 border border-gray-600 text-white placeholder-gray-300"
+          type="date"
+          name="date"
+          value={tattooData.date || new Date().toISOString().split("T")[0]}
+          onChange={handleChange}
+          className="w-full p-2 rounded bg-white/10 border border-gray-600 text-white placeholder-gray-300"
+          style={{
+            minWidth: 0,
+  }}
 />
         <input name="value" placeholder="Valor ($)" onChange={handleChange} className="w-full p-2 rounded bg-white/10 border border-gray-600 placeholder-gray-300" />
         <input name="deposit" placeholder="Abono ($)" onChange={handleChange} className="w-full p-2 rounded bg-white/10 border border-gray-600 placeholder-gray-300" />
