@@ -188,12 +188,14 @@ export default function App() {
         name="date"
         value={tattooData.date || new Date().toISOString().split("T")[0]}
         onChange={handleChange}
-        className="w-full p-2 rounded bg-white/10 border border-gray-600 text-white placeholder-gray-300 text-left"
+        className="w-full p-2 rounded bg-white/10 border border-gray-600 text-white placeholder-gray-300"
         style={{
+         textAlign: 'left',
          minWidth: 0,
          maxWidth: '100%',
          appearance: 'none',
          WebkitAppearance: 'none',
+         MozAppearance: 'textfield',
   }}
 />
 
